@@ -1,0 +1,25 @@
+# Virtual Environment
+venv/
+
+# Compiled Python files
+__pycache__/
+*.pyc
+*.pyo
+__pycache__/
+*.egg-info/
+
+# SQLite database
+db.sqlite3
+
+# IDE-specific files
+.vscode/
+.idea/
+
+# Environment-specific files
+*.env
+*.env.*
+
+# Visual Studio Code settings
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
