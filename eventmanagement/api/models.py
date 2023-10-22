@@ -30,16 +30,26 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password=None, **extra_fields):
+    def create_superuser(self, email, password=None, college_id=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_active', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        # Get the College instance
+        # college = College.objects.get(id=college_id)
+        # extra_fields['college'] = college
 
         return self.create_user(email, password, **extra_fields)
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=100)
-    college = models.ForeignKey(College, on_delete=models.CASCADE)  # Link user to College
+    college = models.ForeignKey(College, on_delete=models.CASCADE,null=True, blank=True)  # Link user to College
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
@@ -55,7 +65,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['name', 'college']
+    REQUIRED_FIELDS = ['name']
 
     def __str__(self):
         return self.email

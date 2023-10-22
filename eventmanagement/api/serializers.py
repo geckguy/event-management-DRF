@@ -4,7 +4,7 @@ from .models import College, Student, Event, CustomUser
 class CollegeSerializer(serializers.ModelSerializer):
     class Meta:
         model = College
-        fields = '__all__'
+        fields = ('id', 'code', 'name')
 
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,9 +19,4 @@ class EventSerializer(serializers.ModelSerializer):
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('id', 'email', 'name', 'college')
-
-class CollegeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = College
-        fields = ('id', 'code', 'name')
+        fields = ('id', 'email', 'name', 'college', 'roll_number')
