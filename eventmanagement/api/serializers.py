@@ -19,17 +19,18 @@ class EventSerializer(serializers.ModelSerializer):
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('id', 'email', 'name', 'college', 'roll_number')
+        fields = ('id', 'email', 'name', 'college')
 
-class RegisterSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ('email', 'password', 'name', 'college')
-        extra_kwargs = {'password': {'write_only': True}}
+class RegisterSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
+    name = serializers.CharField()
+    college = serializers.PrimaryKeyRelatedField(queryset=College.objects.all())
+    roll_number = serializers.CharField()
 
     def create(self, validated_data):
-        password = validated_data.pop('password')
-        user = CustomUser(**validated_data)
-        user.set_password(password)
-        user.save()
+        college = validated_data.pop('college')
+        roll_number = validated_data.pop('roll_number')
+        user = CustomUser.objects.create(college=college, **validated_data)
+        Student.objects.create(user=user, name=validated_data['name'], college=college, roll_number=roll_number)
         return user
