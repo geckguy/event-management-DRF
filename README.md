@@ -11,3 +11,5 @@ This is an API for an Event Management System built with Django and Django REST 
 
 ## Usage
  All endpoints return data in JSON format. Most endpoints require JWT token authentication, which should be included in the Authorization header of the request in the format `Bearer <token>
+
+Refer to the API documentation [here](https://documenter.getpostman.com/view/19992072/2s9YRCVqov)
