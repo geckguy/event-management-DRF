@@ -10,7 +10,7 @@ class College(models.Model):
         return self.name
 
 class Student(models.Model):
-    user = models.OneToOneField('api.CustomUser', on_delete=models.CASCADE,default=1)
+    user = models.OneToOneField('api.CustomUser', on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     roll_number = models.CharField(max_length=20)
     college = models.ForeignKey(College, on_delete=models.CASCADE)
